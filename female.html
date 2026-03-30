@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Fluxion_#She/Her/They — Joan Ru ART Space</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    :root {
+      --bg: #f5f4f0;
+      --ink: #1a1a1a;
+      --muted: #666;
+      --rule: #ccc;
+      --accent: #e05a1a;
+      --col-left: 260px;
+      --col-right: 340px;
+      --font: 'IBM Plex Mono', 'Courier New', monospace;
+      --size-sm: 11.5px;
+      --size-base: 12.5px;
+      --size-title: 13px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: var(--size-base);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .site {
+      display: grid;
+      grid-template-columns: var(--col-left) 1fr var(--col-right);
+      min-height: 100vh;
+    }
+
+    /* ── LEFT SIDEBAR ── */
+    .sidebar-left {
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto; padding: 32px 24px 40px;
+      border-right: 1px solid var(--rule);
+      display: flex; flex-direction: column;
+    }
+    .sidebar-left::-webkit-scrollbar { display: none; }
+    .back-link { font-size: var(--size-sm); color: var(--ink); text-decoration: none; display: inline-block; margin-bottom: 28px; }
+    .back-link:hover { color: var(--accent); }
+    .nav-label { font-size: var(--size-sm); font-weight: 500; margin-bottom: 10px; }
+    .nav-list { list-style: none; margin-bottom: 40px; }
+    .nav-list li { margin-bottom: 2px; }
+    .nav-list a { font-size: var(--size-sm); color: var(--ink); text-decoration: none; display: block; padding: 1px 0; }
+    .nav-list a:hover { color: var(--accent); }
+    .nav-list a.current { text-decoration: underline; color: var(--accent); }
+    .contact-block { margin-top: 8px; }
+    .contact-block a { display: block; font-size: var(--size-sm); color: var(--ink); text-decoration: none; margin-bottom: 2px; word-break: break-all; }
+    .contact-block a:hover { color: var(--accent); }
+
+    /* ── MAIN ── */
+    .main-content { padding: 40px 48px 80px; overflow: hidden; }
+
+    .page-title {
+      font-size: var(--size-title);
+      font-weight: 500;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 16px;
+    }
+
+    /* Block 1: text left (4/12) + large image right (8/12) */
+    .block-two-col {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 40px;
+      align-items: start;
+      margin-bottom: 48px;
+    }
+
+    .col-text {
+      font-size: var(--size-sm);
+      line-height: 1.85;
+      color: var(--ink);
+      text-align: justify;
+      text-justify: inter-character;
+      padding-top: 8px;
+    }
+
+    .col-image { width: 100%; }
+    .col-image img { width: 100%; height: auto; }
+
+    /* Block 2: three small images in a row */
+    .block-trio {
+      display: flex;
+      gap: 24px;
+      align-items: flex-end;
+      margin-bottom: 48px;
+      flex-wrap: nowrap;
+    }
+
+    .trio-item {
+      flex: 0 0 auto;
+    }
+
+    .trio-item img {
+      height: auto;
+      display: block;
+    }
+
+    /* approximate original scales: 23.9%, 24.1%, 26.4% relative to page */
+    .trio-item:nth-child(1) { width: 28%; }
+    .trio-item:nth-child(2) { width: 28%; }
+    .trio-item:nth-child(3) { width: 31%; }
+
+    /* Block 3: full-width text */
+    .block-fulltext {
+      font-size: var(--size-sm);
+      line-height: 1.85;
+      color: var(--ink);
+      text-align: justify;
+      text-justify: inter-character;
+      max-width: 100%;
+      margin-bottom: 48px;
+    }
+
+    /* Block 4: center large image ~58% wide */
+    .block-center-img {
+      width: 58%;
+      margin: 0 auto 48px;
+    }
+    .block-center-img img { width: 100%; height: auto; }
+
+    /* ── LIGHTBOX ── */
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; display:block; }
+    .lightbox-close { position:absolute; top:20px; right:28px; color:#fff; font-size:28px; cursor:pointer; font-family:var(--font); line-height:1; opacity:0.7; }
+    .lightbox-close:hover { opacity:1; }
+    .zoomable { cursor:zoom-in; }
+
+    /* ── RIGHT CV ── */
+    .sidebar-right {
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto; padding: 32px 28px 40px;
+      border-left: 1px solid var(--rule);
+    }
+    .sidebar-right::-webkit-scrollbar { display: none; }
+    .cv-label { font-size: var(--size-sm); font-weight: 500; margin-bottom: 20px; }
+    .cv-section { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+    .cv-section:last-child { border-bottom: none; }
+    .cv-key { font-size: var(--size-sm); font-weight: 500; margin-bottom: 10px; }
+    .cv-entry { font-size: var(--size-sm); line-height: 1.7; color: var(--ink); margin-bottom: 12px; }
+    .cv-entry-date { font-size: 10.5px; color: var(--muted); }
+    .award-entry { font-size: var(--size-sm); line-height: 1.7; margin-bottom: 14px; padding-left: 8px; border-left: 1px solid var(--rule); }
+    .press-entry { font-size: var(--size-sm); line-height: 1.7; margin-bottom: 14px; }
+    .last-updated { font-size: 10.5px; color: var(--muted); margin-top: 32px; }
+
+    @media (max-width: 900px) {
+      .site { grid-template-columns: 1fr; }
+      .sidebar-left, .sidebar-right { position: relative; height: auto; border: none; border-bottom: 1px solid var(--rule); padding: 20px; }
+      .main-content { padding: 20px 20px 60px; }
+      .block-two-col { grid-template-columns: 1fr; }
+      .block-trio { flex-wrap: wrap; }
+      .trio-item { width: 45% !important; }
+      .block-center-img { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="site">
+
+  <!-- LEFT -->
+  <aside class="sidebar-left">
+    <a href="index.html" class="back-link">← back</a>
+    <p class="nav-label">Working List</p>
+    <ul class="nav-list">
+      <li><a href="fluxion_viewing-page.html">Fluxion_viewing</a></li>
+      <li><a href="fluxion_vision-and-times.html">Fluxion_Vision and Times</a></li>
+      <li><a href="climate.html">Fluxion_Lanscape and Climate</a></li>
+      <li><a href="female.html" class="current">Fluxion_ #She/Her/They</a></li>
+      <li><a href="index.html#s5">Site-specific works</a></li>
+    </ul>
+    <div class="contact-block">
+      <p class="nav-label">Contact</p>
+      <a href="/cdn-cgi/l/email-protection#c288ada3acb0b7f0f2f0f1f3f282adb7b6aeadada9eca1adaf"><span class="__cf_email__" data-cfemail="541e3b353a2621666466676564143b2120383b3b3f7a373b39">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#cfbdbaa5a6a1a8bcbaa1fb8fa8a2aea6a3e1aca0a2"><span class="__cf_email__" data-cfemail="c6b4b3acafa8a1b5b3a8f286a1aba7afaae8a5a9ab">[email&#160;protected]</span></a>
+      <a href="https://linkedin.com/in/rujing-sun-33b969301" target="_blank">linkedin.com/in/rujing-sun-33b969301</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <div class="page-title">Fluxion_#She/Her/They</div>
+
+    <!-- Block 1: text left + large image right -->
+    <div class="block-two-col">
+      <div class="col-text">
+        //The body and I, the lines and the gold constitute a triple superposition of the female body, viewing and self-consciousness. When the body becomes an object of viewing, pure viewing becomes a capture function, which is paradoxical.
+      </div>
+      <div class="col-image">
+        <!-- ★ images/female-1.jpg — hash D2827926400342097390020646598232 -->
+        <img class="zoomable" src="images/female-1.jpg" alt="She/Her/They 1"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div style="display:none; background:#e0ddd6; aspect-ratio:3/4; align-items:center; justify-content:center; font-size:10px; color:var(--muted); text-transform:uppercase;">female-1.jpg</div>
+      </div>
+    </div>
+
+    <!-- Block 2: three small images in a row -->
+    <div class="block-trio">
+      <div class="trio-item">
+        <!-- ★ images/female-2.jpg — hash A2487207972013234300177762154072 -->
+        <img class="zoomable" src="images/female-2.jpg" alt="She/Her/They 2"
+          onerror="this.style.background='#e0ddd6'; this.style.minHeight='160px'">
+      </div>
+      <div class="trio-item">
+        <!-- ★ images/female-3.jpg — hash N2828148495414502550132773811800 -->
+        <img class="zoomable" src="images/female-3.jpg" alt="She/Her/They 3"
+          onerror="this.style.background='#e0ddd6'; this.style.minHeight='160px'">
+      </div>
+      <div class="trio-item">
+        <!-- ★ images/female-4.jpg — hash A2828144644878038092148388591192 -->
+        <img class="zoomable" src="images/female-4.jpg" alt="She/Her/They 4"
+          onerror="this.style.background='#e0ddd6'; this.style.minHeight='160px'">
+      </div>
+    </div>
+
+    <!-- Block 3: full-width text -->
+    <div class="block-fulltext">
+      //The section between the female and anti-gaze demonstrates the concept of bilaterality through the use of flowing visual symbols, specifically a confrontation between two faces. In this scenario, when a gaze is directed towards the subject, it becomes necessary to both return the gaze and retaliate against the anonymous malice and digital torrents within the visual system.
+    </div>
+
+    <!-- Block 4: center large image -->
+    <div class="block-center-img">
+      <!-- ★ images/female-5.jpg — hash F2827799614062297865048853771864 -->
+      <img class="zoomable" src="images/female-5.jpg" alt="She/Her/They 5"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div style="display:none; background:#e0ddd6; aspect-ratio:4/3; align-items:center; justify-content:center; font-size:10px; color:var(--muted); text-transform:uppercase;">female-5.jpg</div>
+    </div>
+
+  </main>
+
+  <!-- RIGHT CV -->
+  <aside class="sidebar-right">
+    <div class="cv-label">cv</div>
+    <div class="cv-section">
+      <div class="cv-key">Education</div>
+      <div class="cv-entry">Hunan Normal University<br><span class="cv-entry-date">Sep 2021 – Jun 2024</span><br>Master Degree in Fine Arts &nbsp;FMA</div>
+      <div class="cv-entry">Hunan Normal University<br><span class="cv-entry-date">Sep 2017 – Jun 2021</span><br>Bachelor Degree in Fine Arts &nbsp;BA</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Employment</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2024 – Sep 2025</span><br>Art Teacher<br>YiShuYIGe Art Institution</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2021 – Sep 2023</span><br>Content Editor, Graduate Student<br>Media Public Account (Full-Time)</div>
+      <div class="cv-entry"><span class="cv-entry-date">Nov 2021 – Dec 2021</span><br>Yali Experimental Middle School<br>Art Teacher Intern</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2017 – Sep 2019</span><br>Mengxingzhe Network Media Studio<br>Copywriting Team Member</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Skills</div>
+      <div class="cv-entry">PS, AI, ID</div>
+      <div class="cv-entry">Watercolor, acrylic painting,<br>illustration, Editing</div>
+      <div class="cv-entry">Negotiation<br>Cross-Cultural Communication<br>Creative Project Management</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Awards And Exhibitions</div>
+      <div class="award-entry">Award of Excellence: 15th Annual Exhibition of Art Works of Chinese Universities — "Mobile Spectator NO.8" (Dec 2023 – Mar 2024)</div>
+      <div class="award-entry">Merit Award: CACR Hong Kong Contemporary Art Award Stage 2 — "Mobile Spectator – Jellyfish NO.2" (Sep 2023 – Nov 2023)</div>
+      <div class="award-entry">Online Exhibition: "Boundary of Language: Chinese Art Exhibition" (Sep 2022 – Jun 2023)</div>
+      <div class="award-entry">Exhibition Opportunity: "What is Art?" Boomer Gallery, London (Dec 2022 – Jun 2023)</div>
+      <div class="award-entry">Online Exhibition: "Rainbow: Contemporary Chinese Art Exhibition" Moscow State Ostrovsky Museum (Sep 2022 – Sep 2023)</div>
+      <div class="award-entry">Third Prize, 32nd Campus Culture and Art Festival, Hunan Normal University (Sep 2018 – Sep 2019)</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Press</div>
+      <div class="press-entry">Sun Rujing. "Melting Snow" [J]. Media, 2023, (13): 104. ISSN 1009-9263</div>
+      <div class="press-entry">Sun Rujing. "Works of Sun Rujing" [J]. Beauty and Times (Part I), 2022, (06): 2. DOI:10.16129/j.cnki.mysds.2022.06.026. ISSN1003-2592</div>
+    </div>
+    <div class="last-updated" id="live-clock"></div>
+  </aside>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  document.querySelectorAll('img.zoomable').forEach(img => {
+    img.addEventListener('click', () => {
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElemen

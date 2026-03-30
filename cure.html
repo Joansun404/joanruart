@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Site-specific works — Joan Ru ART Space</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    :root {
+      --bg: #f5f4f0;
+      --ink: #1a1a1a;
+      --muted: #666;
+      --rule: #ccc;
+      --accent: #e05a1a;
+      --green: rgb(57, 116, 15);
+      --col-left: 260px;
+      --col-right: 340px;
+      --font: 'IBM Plex Mono', 'Courier New', monospace;
+      --size-sm: 11.5px;
+      --size-base: 12.5px;
+      --size-title: 13px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: var(--size-base);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .site {
+      display: grid;
+      grid-template-columns: var(--col-left) 1fr var(--col-right);
+      min-height: 100vh;
+    }
+
+    /* ── LEFT SIDEBAR ── */
+    .sidebar-left {
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto; padding: 32px 24px 40px;
+      border-right: 1px solid var(--rule);
+      display: flex; flex-direction: column;
+    }
+    .sidebar-left::-webkit-scrollbar { display: none; }
+    .back-link { font-size: var(--size-sm); color: var(--ink); text-decoration: none; display: inline-block; margin-bottom: 28px; }
+    .back-link:hover { color: var(--accent); }
+    .nav-label { font-size: var(--size-sm); font-weight: 500; margin-bottom: 10px; }
+    .nav-list { list-style: none; margin-bottom: 40px; }
+    .nav-list li { margin-bottom: 2px; }
+    .nav-list a { font-size: var(--size-sm); color: var(--ink); text-decoration: none; display: block; padding: 1px 0; }
+    .nav-list a:hover { color: var(--accent); }
+    .nav-list a.current { text-decoration: underline; color: var(--accent); }
+    .contact-block { margin-top: 8px; }
+    .contact-block a { display: block; font-size: var(--size-sm); color: var(--ink); text-decoration: none; margin-bottom: 2px; word-break: break-all; }
+    .contact-block a:hover { color: var(--accent); }
+
+    /* ── MAIN ── */
+    .main-content { padding: 40px 48px 80px; overflow: hidden; }
+
+    .page-title {
+      font-size: var(--size-title);
+      font-weight: 500;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 16px;
+    }
+
+    /* Green intro quote */
+    .intro-quote {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      color: var(--green);
+      line-height: 1.85;
+      margin-bottom: 56px;
+      max-width: 700px;
+      text-align: justify;
+      text-justify: inter-character;
+    }
+
+    /* Repeated row pattern: text (narrow) + image (wide) */
+    /* Uses CSS grid with column spans mirroring Cargo's 4/8, 5/7, 5/7, 4/8 */
+    .content-row {
+      display: grid;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 64px;
+    }
+
+    /* Row 1 & 4: 4 text + 8 image = ~33% / 67% */
+    .col-4-8 { grid-template-columns: 1fr 2fr; }
+
+    /* Row 2 & 3: 5 text + 7 image = ~42% / 58% */
+    .col-5-7 { grid-template-columns: 1.1fr 1.9fr; }
+
+    .row-text {
+      font-size: var(--size-sm);
+      line-height: 1.85;
+      color: var(--ink);
+      text-align: justify;
+      text-justify: inter-character;
+    }
+
+    .row-image { width: 100%; }
+
+    /* Scaled image widths matching original percentages:
+       Row1: 61.6%, Row2: 54.2%, Row3: 49.2%, Row4: full width */
+    .row-image.scale-616 { max-width: 61.6%; margin: 0 auto; }
+    .row-image.scale-542 { max-width: 54.2%; margin: 0 auto; }
+    .row-image.scale-492 { max-width: 49.2%; margin: 0 auto; }
+    .row-image.scale-full { max-width: 100%; }
+
+    .row-image img { width: 100%; height: auto; }
+
+    /* placeholder */
+    .img-ph {
+      background: #e0ddd6;
+      aspect-ratio: 3/4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; display:block; }
+    .lightbox-close { position:absolute; top:20px; right:28px; color:#fff; font-size:28px; cursor:pointer; font-family:var(--font); line-height:1; opacity:0.7; }
+    .lightbox-close:hover { opacity:1; }
+    .zoomable { cursor:zoom-in; }
+
+    /* ── RIGHT CV ── */
+    .sidebar-right {
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto; padding: 32px 28px 40px;
+      border-left: 1px solid var(--rule);
+    }
+    .sidebar-right::-webkit-scrollbar { display: none; }
+    .cv-label { font-size: var(--size-sm); font-weight: 500; margin-bottom: 20px; }
+    .cv-section { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+    .cv-section:last-child { border-bottom: none; }
+    .cv-key { font-size: var(--size-sm); font-weight: 500; margin-bottom: 10px; }
+    .cv-entry { font-size: var(--size-sm); line-height: 1.7; color: var(--ink); margin-bottom: 12px; }
+    .cv-entry-date { font-size: 10.5px; color: var(--muted); }
+    .award-entry { font-size: var(--size-sm); line-height: 1.7; margin-bottom: 14px; padding-left: 8px; border-left: 1px solid var(--rule); }
+    .press-entry { font-size: var(--size-sm); line-height: 1.7; margin-bottom: 14px; }
+    .last-updated { font-size: 10.5px; color: var(--muted); margin-top: 32px; }
+
+    @media (max-width: 900px) {
+      .site { grid-template-columns: 1fr; }
+      .sidebar-left, .sidebar-right { position: relative; height: auto; border: none; border-bottom: 1px solid var(--rule); padding: 20px; }
+      .main-content { padding: 20px 20px 60px; }
+      .content-row { grid-template-columns: 1fr; gap: 20px; }
+      .row-image.scale-616,
+      .row-image.scale-542,
+      .row-image.scale-492 { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+<div class="site">
+
+  <!-- LEFT -->
+  <aside class="sidebar-left">
+    <a href="index.html" class="back-link">← back</a>
+    <p class="nav-label">Working List</p>
+    <ul class="nav-list">
+      <li><a href="fluxion_viewing-page.html">Fluxion_viewing</a></li>
+      <li><a href="fluxion_vision-and-times.html">Fluxion_Vision and Times</a></li>
+      <li><a href="climate.html">Fluxion_Lanscape and Climate</a></li>
+      <li><a href="female.html">Fluxion_ #She/Her/They</a></li>
+      <li><a href="cure.html" class="current">Site-specific works</a></li>
+    </ul>
+    <div class="contact-block">
+      <p class="nav-label">Contact</p>
+      <a href="/cdn-cgi/l/email-protection#317b5e505f4344030103020001715e44455d5e5e5a1f525e5c"><span class="__cf_email__" data-cfemail="9dd7f2fcf3efe8afadafaeacadddf2e8e9f1f2f2f6b3fef2f0">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#a5d7d0cfcccbc2d6d0cb91e5c2c8c4ccc98bc6cac8"><span class="__cf_email__" data-cfemail="f486819e9d9a9387819ac0b49399959d98da979b99">[email&#160;protected]</span></a>
+      <a href="https://linkedin.com/in/rujing-sun-33b969301" target="_blank">linkedin.com/in/rujing-sun-33b969301</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <div class="page-title">Site-specific works</div>
+
+    <!-- Green intro quote -->
+    <p class="intro-quote">By visualizing ecological relationships and emotional experiences of environmental change, artists can contribute to climate discussions by creating new ways for people to perceive and reflect on complex ecological issues, encouraging dialogue between scientific knowledge, cultural experience, and public awareness.</p>
+
+    <!-- Row 1: 4/12 text + 8/12 image (61.6%) -->
+    <div class="content-row col-4-8">
+      <div class="row-text">
+        climate change is not only a scientific issue but also a cultural and psychological experience.
+      </div>
+      <div class="row-image scale-616">
+        <!-- ★ images/cure-1.jpg — hash Y2829221300219286826575316055640 -->
+        <img class="zoomable" src="images/cure-1.jpg" alt="Site-specific 1"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="img-ph" style="display:none;">cure-1.jpg</div>
+      </div>
+    </div>
+
+    <!-- Row 2: 5/12 text + 7/12 image (54.2%) -->
+    <div class="content-row col-5-7">
+      <div class="row-text">
+        These dynamic flows, emphasizing how human activity exists within larger environmental systems.
+      </div>
+      <div class="row-image scale-542">
+        <!-- ★ images/cure-2.jpg — hash G2829221165244460439242526881368 -->
+        <img class="zoomable" src="images/cure-2.jpg" alt="Site-specific 2"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="img-ph" style="display:none;">cure-2.jpg</div>
+      </div>
+    </div>
+
+    <!-- Row 3: 5/12 text + 7/12 image (49.2%) -->
+    <div class="content-row col-5-7">
+      <div class="row-text">
+        This perspective resonates with wetland ecologies, where plants, animals, microorganisms, and water cycles depend on one another for survival.
+      </div>
+      <div class="row-image scale-492">
+        <!-- ★ images/cure-3.jpg — hash T2829222085257374371432704177752 -->
+        <img class="zoomable" src="images/cure-3.jpg" alt="Site-specific 3"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="img-ph" style="display:none;">cure-3.jpg</div>
+      </div>
+    </div>
+
+    <!-- Row 4: 4/12 text + 8/12 image (full width of column) -->
+    <div class="content-row col-4-8">
+      <div class="row-text">
+        The urban summer painting, depicting heat, radiation, and fragile human bodies, further highlights the environmental pressures caused by climate change and urbanization, reminding us that human infrastructures and natural processes are closely linked.
+      </div>
+      <div class="row-image scale-full">
+        <!-- ★ images/cure-4.jpg — hash B2829221759561661006016860845656 -->
+        <img class="zoomable" src="images/cure-4.jpg" alt="Site-specific 4"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="img-ph" style="display:none; aspect-ratio:16/9;">cure-4.jpg</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- RIGHT CV -->
+  <aside class="sidebar-right">
+    <div class="cv-label">cv</div>
+    <div class="cv-section">
+      <div class="cv-key">Education</div>
+      <div class="cv-entry">Hunan Normal University<br><span class="cv-entry-date">Sep 2021 – Jun 2024</span><br>Master Degree in Fine Arts &nbsp;FMA</div>
+      <div class="cv-entry">Hunan Normal University<br><span class="cv-entry-date">Sep 2017 – Jun 2021</span><br>Bachelor Degree in Fine Arts &nbsp;BA</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Employment</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2024 – Sep 2025</span><br>Art Teacher<br>YiShuYIGe Art Institution</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2021 – Sep 2023</span><br>Content Editor, Graduate Student<br>Media Public Account (Full-Time)</div>
+      <div class="cv-entry"><span class="cv-entry-date">Nov 2021 – Dec 2021</span><br>Yali Experimental Middle School<br>Art Teacher Intern</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2017 – Sep 2019</span><br>Mengxingzhe Network Media Studio<br>Copywriting Team Member</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Skills</div>
+      <div class="cv-entry">PS, AI, ID</div>
+      <div class="cv-entry">Watercolor, acrylic painting,<br>illustration, Editing</div>
+      <div class="cv-entry">Negotiation<br>Cross-Cultural Communication<br>Creative Project Management</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Awards And Exhibitions</div>
+      <div class="award-entry">Award of Excellence: 15th Annual Exhibition of Art Works of Chinese Universities — "Mobile Spectator NO.8" (Dec 2023 – Mar 2024)</div>
+      <div class="award-entry">Merit Award: CACR Hong Kong Contemporary Art Award Stage 2 — "Mobile Spectator – Jellyfish NO.2" (Sep 2023 – Nov 2023)</div>
+      <div class="award-entry">Online Exhibition: "Boundary of Language: Chinese Art Exhibition" (Sep 2022 – Jun 2023)</div>
+      <div class="award-entry">Exhibition Opportunity: "What is Art?" Boomer Gallery, London (Dec 2022 – Jun 2023)</div>
+      <div class="award-entry">Online Exhibition: "Rainbow: Contemporary Chinese Art Exhibition" Moscow State Ostrovsky Museum (Sep 2022 – Sep 2023)</div>
+      <div class="award-entry">Third Prize, 32nd Campus Culture and Art Festival, Hunan Normal University (Sep 2018 – Sep 2019)</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Press</div>
+      <div class="press-entry">Sun Rujing. "Melting Snow" [J]. Media, 2023, (13): 104. ISSN 1009-9263</div>
+      <div class="press-entry">Sun Rujing. "Works of Sun Rujing" [J]. Beauty and Times (Part I), 2022, (06): 2. DOI:10.16129/j.cnki.mysds.2022.06.026. ISSN1003-2592</div>
+    </div>
+    <div class="last-updated" id="live-clock"></div>
+  </aside>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  document.querySelectorAll('img.zoomable').forEach(img => {
+    img.addEventListener('click', () => {
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElemen

@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>Fluxion_Lanscape and Climate — Joan Ru ART Space</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    :root {
+      --bg: #f5f4f0;
+      --ink: #1a1a1a;
+      --muted: #666;
+      --rule: #ccc;
+      --accent: #e05a1a;
+      --navy: rgba(10, 59, 143, 0.85);
+      --navy2: rgba(2, 33, 106, 0.85);
+      --col-left: 260px;
+      --col-right: 340px;
+      --font: 'IBM Plex Mono', 'Courier New', monospace;
+      --size-sm: 11.5px;
+      --size-base: 12.5px;
+      --size-title: 13px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: var(--size-base);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .site {
+      display: grid;
+      grid-template-columns: var(--col-left) 1fr var(--col-right);
+      min-height: 100vh;
+    }
+
+    /* ── LEFT SIDEBAR ── */
+    .sidebar-left {
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto; padding: 32px 24px 40px;
+      border-right: 1px solid var(--rule);
+      display: flex; flex-direction: column;
+    }
+    .sidebar-left::-webkit-scrollbar { display: none; }
+    .back-link { font-size: var(--size-sm); color: var(--ink); text-decoration: none; display: inline-block; margin-bottom: 28px; }
+    .back-link:hover { color: var(--accent); }
+    .nav-label { font-size: var(--size-sm); font-weight: 500; margin-bottom: 10px; }
+    .nav-list { list-style: none; margin-bottom: 40px; }
+    .nav-list li { margin-bottom: 2px; }
+    .nav-list a { font-size: var(--size-sm); color: var(--ink); text-decoration: none; display: block; padding: 1px 0; }
+    .nav-list a:hover { color: var(--accent); }
+    .nav-list a.current { text-decoration: underline; color: var(--accent); }
+    .contact-block { margin-top: 8px; }
+    .contact-block a { display: block; font-size: var(--size-sm); color: var(--ink); text-decoration: none; margin-bottom: 2px; word-break: break-all; }
+    .contact-block a:hover { color: var(--accent); }
+
+    /* ── MAIN ── */
+    .main-content { padding: 0 0 80px; overflow: hidden; }
+
+    /* ── MARQUEE TITLE ── */
+    .marquee-wrap {
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 32px 0 20px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 48px;
+      cursor: default;
+      user-select: none;
+    }
+
+    .marquee-track {
+      display: inline-block;
+      animation: marquee-scroll 18s linear infinite;
+    }
+
+    .marquee-track:hover { animation-play-state: paused; }
+
+    @keyframes marquee-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .marquee-title {
+      display: inline-block;
+      font-size: clamp(32px, 5vw, 64px);
+      font-weight: 700;
+      font-style: italic;
+      color: var(--navy);
+      text-shadow: 4rem 4rem 0 rgba(0,0,0,0.25);
+      padding-right: 80px;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .marquee-title span { font-weight: 400; }
+
+    /* ── CONTENT BLOCKS ── */
+    .content-pad { padding: 0 48px; }
+
+    .research-q {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 700px;
+      text-align: justify;
+      text-justify: inter-character;
+    }
+
+    /* ── SLIDESHOW ── */
+    .slideshow-wrap {
+      position: relative;
+      width: 100%;
+      margin-bottom: 48px;
+      overflow: hidden;
+      background: #e8e6e0;
+    }
+
+    .slideshow-track {
+      display: flex;
+      transition: transform 0.5s ease;
+      width: 500%; /* 5 slides × 100% */
+    }
+
+    .slideshow-slide {
+      min-width: 20%; /* 100% ÷ 5 slides */
+      height: 36rem;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e8e6e0;
+    }
+
+    .slideshow-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      cursor: zoom-in;
+    }
+
+    .slide-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(26,20,16,0.3);
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font);
+      z-index: 10;
+      transition: background 0.2s;
+    }
+    .slide-btn:hover { background: rgba(26,20,16,0.6); }
+    .slide-btn.prev { left: 12px; }
+    .slide-btn.next { right: 12px; }
+
+    .slide-dots {
+      text-align: center;
+      padding: 10px 0 0;
+    }
+    .slide-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--rule);
+      margin: 0 3px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .slide-dot.active { background: var(--ink); }
+
+    /* ── DESCRIPTION SECTION ── */
+    .body-text {
+      font-size: var(--size-sm);
+      line-height: 1.85;
+      color: var(--ink);
+      max-width: 700px;
+      margin-bottom: 24px;
+      text-align: justify;
+      text-justify: inter-character;
+    }
+
+    .subhead {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      color: var(--navy2);
+      margin: 32px 0 16px;
+      font-size: 14px;
+    }
+
+    .method-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    .method-list li {
+      font-size: var(--size-sm);
+      line-height: 1.8;
+      padding-left: 16px;
+      position: relative;
+      margin-bottom: 8px;
+      text-align: justify;
+      text-justify: inter-character;
+    }
+    .method-list li::before {
+      content: '·';
+      position: absolute;
+      left: 0;
+      color: var(--navy2);
+    }
+
+    /* ── LIGHTBOX ── */
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; display:block; }
+    .lightbox-close { position:absolute; top:20px; right:28px; color:#fff; font-size:28px; cursor:pointer; font-family:var(--font); line-height:1; opacity:0.7; }
+    .lightbox-close:hover { opacity:1; }
+
+    /* ── RIGHT CV ── */
+    .sidebar-right {
+      position: sticky; top: 0; height: 100vh;
+      overflow-y: auto; padding: 32px 28px 40px;
+      border-left: 1px solid var(--rule);
+    }
+    .sidebar-right::-webkit-scrollbar { display: none; }
+    .cv-label { font-size: var(--size-sm); font-weight: 500; margin-bottom: 20px; }
+    .cv-section { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+    .cv-section:last-child { border-bottom: none; }
+    .cv-key { font-size: var(--size-sm); font-weight: 500; margin-bottom: 10px; }
+    .cv-entry { font-size: var(--size-sm); line-height: 1.7; color: var(--ink); margin-bottom: 12px; }
+    .cv-entry-date { font-size: 10.5px; color: var(--muted); }
+    .award-entry { font-size: var(--size-sm); line-height: 1.7; margin-bottom: 14px; padding-left: 8px; border-left: 1px solid var(--rule); }
+    .press-entry { font-size: var(--size-sm); line-height: 1.7; margin-bottom: 14px; }
+    .last-updated { font-size: 10.5px; color: var(--muted); margin-top: 32px; }
+
+    @media (max-width: 900px) {
+      .site { grid-template-columns: 1fr; }
+      .sidebar-left, .sidebar-right { position: relative; height: auto; border: none; border-bottom: 1px solid var(--rule); padding: 20px; }
+      .content-pad { padding: 0 20px; }
+      .slideshow-slide { height: 60vw; }
+    }
+  </style>
+</head>
+<body>
+<div class="site">
+
+  <!-- LEFT -->
+  <aside class="sidebar-left">
+    <a href="index.html" class="back-link">← back</a>
+    <p class="nav-label">Working List</p>
+    <ul class="nav-list">
+      <li><a href="fluxion_viewing-page.html">Fluxion_viewing</a></li>
+      <li><a href="fluxion_vision-and-times.html">Fluxion_Vision and Times</a></li>
+      <li><a href="climate.html" class="current">Fluxion_Lanscape and Climate</a></li>
+      <li><a href="index.html#s4">Fluxion_ #She/Her/They</a></li>
+      <li><a href="index.html#s5">Site-specific works</a></li>
+    </ul>
+    <div class="contact-block">
+      <p class="nav-label">Contact</p>
+      <a href="/cdn-cgi/l/email-protection#d59fbab4bba7a0e7e5e7e6e4e595baa0a1b9bababefbb6bab8"><span class="__cf_email__" data-cfemail="155f7a747b6760272527262425557a6061797a7a7e3b767a78">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#483a3d2221262f3b3d267c082f25292124662b2725"><span class="__cf_email__" data-cfemail="6b191e0102050c181e055f2b0c060a020745080406">[email&#160;protected]</span></a>
+      <a href="https://linkedin.com/in/rujing-sun-33b969301" target="_blank">linkedin.com/in/rujing-sun-33b969301</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- MARQUEE TITLE -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-title"><span>Concept</span> Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="marquee-title"><span>Concept</span> Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="marquee-title"><span>Concept</span> Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        <span class="marquee-title"><span>Concept</span> Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      </div>
+    </div>
+
+    <div class="content-pad">
+
+      <!-- Research question -->
+      <p class="research-q">The research question guiding this project is: Through painting and field-based observation, the project investigates how personal memory and environmental change intersect within landscapes shaped by climate and human activity.</p>
+
+      <!-- SLIDESHOW -->
+      <div class="slideshow-wrap" id="slideshow">
+        <div class="slideshow-track" id="slideshow-track">
+          <!-- ★ 5 slides — replace image filenames -->
+          <div class="slideshow-slide">
+            <img class="zoomable" src="images/climate-1.jpg" alt="Landscape and Climate 1"
+              onerror="this.style.background='#e0ddd6'; this.alt='climate-1.jpg'">
+          </div>
+          <div class="slideshow-slide">
+            <img class="zoomable" src="images/climate-2.jpg" alt="Landscape and Climate 2"
+              onerror="this.style.background='#e0ddd6'; this.alt='climate-2.jpg'">
+          </div>
+          <div class="slideshow-slide">
+            <img class="zoomable" src="images/climate-3.jpg" alt="Landscape and Climate 3"
+              onerror="this.style.background='#e0ddd6'; this.alt='climate-3.jpg'">
+          </div>
+          <div class="slideshow-slide">
+            <img class="zoomable" src="images/climate-4.jpg" alt="Landscape and Climate 4"
+              onerror="this.style.background='#e0ddd6'; this.alt='climate-4.jpg'">
+          </div>
+          <div class="slideshow-slide">
+            <img class="zoomable" src="images/climate-5.jpg" alt="Landscape and Climate 5"
+              onerror="this.style.background='#e0ddd6'; this.alt='climate-5.jpg'">
+          </div>
+        </div>
+        <button class="slide-btn prev" onclick="slideMove(-1)">&#8592;</button>
+        <button class="slide-btn next" onclick="slideMove(1)">&#8594;</button>
+      </div>
+      <div class="slide-dots" id="slide-dots"></div>
+
+      <!-- Description -->
+      <p class="body-text" style="margin-top: 40px;">The landscape is not only a physical place but also a living network of interactions between humans, plants, animals, water, and climate. The exaggerated colors and flowing shapes visualize the emotional and ecological connections embedded in memory and place. By blending abstraction and narrative imagery, the painting aims to explore how personal memory, environmental observation, and ecological imagination can coexist in artistic research about landscape.</p>
+
+      <!-- Research Methods -->
+      <div class="subhead">Research Methods</div>
+      <ul class="method-list">
+        <li>Fieldwork observation of winter landscapes in northern China</li>
+        <li>Sketching and photographic documentation of rivers, trees, and agricultural fields</li>
+        <li>Memory-based reconstruction of seasonal environmental experience</li>
+        <li>Studio painting translating ecological observations into expressive forms</li>
+      </ul>
+
+      <!-- Reflection -->
+      <div class="subhead">Reflection</div>
+      <p class="body-text">During the painting process, the boundary between human body and natural environment gradually dissolved. This led to an understanding that ecological environments shape psychological experience and identity. The work suggests that humans are embedded within multispecies ecosystems rather than separate from them.</p>
+      <p class="body-text">Also to contemplate how environmental conditions such as temperature and radiation influence both physical sensation and emotional perception of urban space. The painting reflects a growing awareness that climate change is not only a scientific issue but also a cultural and psychological experience.</p>
+
+    </div>
+  </main>
+
+  <!-- RIGHT CV -->
+  <aside class="sidebar-right">
+    <div class="cv-label">cv</div>
+    <div class="cv-section">
+      <div class="cv-key">Education</div>
+      <div class="cv-entry">Hunan Normal University<br><span class="cv-entry-date">Sep 2021 – Jun 2024</span><br>Master Degree in Fine Arts &nbsp;FMA</div>
+      <div class="cv-entry">Hunan Normal University<br><span class="cv-entry-date">Sep 2017 – Jun 2021</span><br>Bachelor Degree in Fine Arts &nbsp;BA</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Employment</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2024 – Sep 2025</span><br>Art Teacher<br>YiShuYIGe Art Institution</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2021 – Sep 2023</span><br>Content Editor, Graduate Student<br>Media Public Account (Full-Time)</div>
+      <div class="cv-entry"><span class="cv-entry-date">Nov 2021 – Dec 2021</span><br>Yali Experimental Middle School<br>Art Teacher Intern</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2017 – Sep 2019</span><br>Mengxingzhe Network Media Studio<br>Copywriting Team Member</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Skills</div>
+      <div class="cv-entry">PS, AI, ID</div>
+      <div class="cv-entry">Watercolor, acrylic painting,<br>illustration, Editing</div>
+      <div class="cv-entry">Negotiation<br>Cross-Cultural Communication<br>Creative Project Management</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Awards And Exhibitions</div>
+      <div class="award-entry">Award of Excellence: 15th Annual Exhibition of Art Works of Chinese Universities — "Mobile Spectator NO.8" (Dec 2023 – Mar 2024)</div>
+      <div class="award-entry">Merit Award: CACR Hong Kong Contemporary Art Award Stage 2 — "Mobile Spectator – Jellyfish NO.2" (Sep 2023 – Nov 2023)</div>
+      <div class="award-entry">Online Exhibition: "Boundary of Language: Chinese Art Exhibition" (Sep 2022 – Jun 2023)</div>
+      <div class="award-entry">Exhibition Opportunity: "What is Art?" Boomer Gallery, London (Dec 2022 – Jun 2023)</div>
+      <div class="award-entry">Online Exhibition: "Rainbow: Contemporary Chinese Art Exhibition" Moscow State Ostrovsky Museum (Sep 2022 – Sep 2023)</div>
+      <div class="award-entry">Third Prize, 32nd Campus Culture and Art Festival, Hunan Normal University (Sep 2018 – Sep 2019)</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Press</div>
+      <div class="press-entry">Sun Rujing. "Melting Snow" [J]. Media, 2023, (13): 104. ISSN 1009-9263</div>
+      <div class="press-entry">Sun Rujing. "Works of Sun Rujing" [J]. Beauty and Times (Part I), 2022, (06): 2. DOI:10.16129/j.cnki.mysds.2022.06.026. ISSN1003-2592</div>
+    </div>
+    <div class="last-updated" id="live-clock"></div>
+  </aside>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  /* ── SLIDESHOW ── */
+  var current = 0;
+  var track = document.getElementById('slideshow-track');
+  var dotsWrap = document.getElementById('slide-dots');
+  var slideNodes = document.querySelectorAll('.slideshow-slide');
+  var total = slideNodes.length;
+
+  // Build dots
+  slideNodes.forEach(function(_, i) {
+    var d = document.createElement('span');
+    d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    d.onclick = function() { goTo(i); };
+    dotsWrap.appendChild(d);
+  });
+
+  function goTo(n) {
+    current = (n + total) % total;
+    // Get the actual pixel width of one slide
+    var slideWidth = slideNodes[0].getBoundingClientRect().width;
+    track.style.transform = 'translateX(-' + (current * slideWidth) + 'px)';
+    document.querySelectorAll('.slide-dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function slideMove(dir) { goTo(current + dir); }
+
+  // Auto-advance every 4s
+  setInterval(function() { slideMove(1); }, 4000);
+
+  // Recalculate on resize
+  window.addEventListener('resize', function() { goTo(current); });
+
+  // Keyboard arrows
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowRight') slideMove(1);
+    if (e.key === 'ArrowLeft')  slideMove(-1);
+  });
+
+  /* ── LIGHTBOX ── */
+  document.querySelectorAll('img.zoomable').forEach(function(img) {
+    img.addEventListener('click', function() {
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLightbox(e) {
+    if (e) e.stopPropagation();
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  /* ── LIVE CLOCK ── */
+  (function() {
+    function updateClock() {
+      var el = document.getElementById('live-clock');
+      if (!el) return;
+      var now = new Date();
+      el.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+  })();
+</script></body>
+</html>

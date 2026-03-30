@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fluxion_viewing — Joan Ru ART Space</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    :root {
+      --bg: #f5f4f0;
+      --ink: #1a1a1a;
+      --muted: #666;
+      --rule: #ccc;
+      --accent: #e05a1a;
+      --navy: rgba(13, 5, 84, 0.85);
+      --col-left: 260px;
+      --col-right: 340px;
+      --font: 'IBM Plex Mono', 'Courier New', monospace;
+      --size-sm: 11.5px;
+      --size-base: 12.5px;
+      --size-title: 13px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: var(--size-base);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .site {
+      display: grid;
+      grid-template-columns: var(--col-left) 1fr var(--col-right);
+      min-height: 100vh;
+    }
+
+    /* ── LEFT SIDEBAR ── */
+    .sidebar-left {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 32px 24px 40px;
+      border-right: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-left::-webkit-scrollbar { display: none; }
+
+    .back-link {
+      font-size: var(--size-sm);
+      color: var(--ink);
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 28px;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    .nav-label {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .nav-list { list-style: none; margin-bottom: 40px; }
+    .nav-list li { margin-bottom: 2px; }
+    .nav-list a {
+      font-size: var(--size-sm);
+      color: var(--ink);
+      text-decoration: none;
+      display: block;
+      padding: 1px 0;
+    }
+    .nav-list a:hover { color: var(--accent); }
+    .nav-list a.current { text-decoration: underline; color: var(--accent); }
+
+    .contact-block { margin-top: 8px; }
+    .contact-block a {
+      display: block;
+      font-size: var(--size-sm);
+      color: var(--ink);
+      text-decoration: none;
+      margin-bottom: 2px;
+      word-break: break-all;
+    }
+    .contact-block a:hover { color: var(--accent); }
+
+    /* ── MAIN CONTENT ── */
+    .main-content {
+      padding: 40px 48px 80px;
+      overflow: hidden;
+    }
+
+    .page-title {
+      font-size: var(--size-title);
+      font-weight: 500;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 16px;
+    }
+
+    /* Two-column intro: narrow text left, large image right */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 2.5fr;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+
+    .intro-text {
+      font-size: var(--size-sm);
+      line-height: 1.85;
+      color: var(--navy);
+      text-align: justify;
+      text-justify: inter-character;
+    }
+
+    .intro-image { width: 100%; }
+    .intro-image img { width: 100%; height: auto; }
+
+    /* Full-width image */
+    .full-image {
+      width: 100%;
+      margin-bottom: 48px;
+    }
+    .full-image img { width: 100%; height: auto; }
+
+    /* Two side-by-side images */
+    .pair-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .pair-grid img { width: 100%; height: auto; }
+
+    /* Placeholder */
+    .img-placeholder {
+      background: #e8e6e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-height: 200px;
+    }
+
+    /* ── RIGHT SIDEBAR ── */
+    .sidebar-right {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 32px 28px 40px;
+      border-left: 1px solid var(--rule);
+    }
+    .sidebar-right::-webkit-scrollbar { display: none; }
+
+    .cv-label { font-size: var(--size-sm); font-weight: 500; margin-bottom: 20px; }
+    .cv-section { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
+    .cv-section:last-child { border-bottom: none; }
+    .cv-key { font-size: var(--size-sm); font-weight: 500; margin-bottom: 10px; }
+    .cv-entry { font-size: var(--size-sm); line-height: 1.7; color: var(--ink); margin-bottom: 12px; }
+    .cv-entry-date { font-size: 10.5px; color: var(--muted); }
+    .award-entry { font-size: var(--size-sm); line-height: 1.7; margin-bottom: 14px; padding-left: 8px; border-left: 1px solid var(--rule); }
+    .press-entry { font-size: var(--size-sm); line-height: 1.7; margin-bottom: 14px; }
+    .last-updated { font-size: 10.5px; color: var(--muted); margin-top: 32px; }
+
+    @media (max-width: 900px) {
+      .site { grid-template-columns: 1fr; }
+      .sidebar-left, .sidebar-right { position: relative; height: auto; border: none; border-bottom: 1px solid var(--rule); padding: 20px; }
+      .main-content { padding: 20px 20px 60px; }
+      .intro-grid { grid-template-columns: 1fr; }
+      .intro-text { padding-top: 0; }
+      .pair-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="site">
+
+  <!-- LEFT -->
+  <aside class="sidebar-left">
+    <a href="index.html" class="back-link">← back</a>
+    <p class="nav-label">Working List</p>
+    <ul class="nav-list">
+      <li><a href="fluxion_viewing-page.html" class="current">Fluxion_viewing</a></li>
+      <li><a href="index.html#s2">Fluxion_Vision and Times</a></li>
+      <li><a href="index.html#s3">Fluxion_Fluxion_Lanscape and Climate</a></li>
+      <li><a href="index.html#s4">Fluxion_ #She/Her/They</a></li>
+      <li><a href="index.html#s5">Site-specific works</a></li>
+    </ul>
+    <div class="contact-block">
+      <p class="nav-label">Contact</p>
+      <a href="/cdn-cgi/l/email-protection#5f15303e312d2a6d6f6d6c6e6f1f302a2b33303034713c3032"><span class="__cf_email__" data-cfemail="ce84a1afa0bcbbfcfefcfdfffe8ea1bbbaa2a1a1a5e0ada1a3">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#c7b5b2adaea9a0b4b2a9f387a0aaa6aeabe9a4a8aa"><span class="__cf_email__" data-cfemail="f38186999a9d9480869dc7b3949e929a9fdd909c9e">[email&#160;protected]</span></a>
+      <a href="https://linkedin.com/in/rujing-sun-33b969301" target="_blank">linkedin.com/in/rujing-sun-33b969301</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+    <div class="page-title">Fluxion_viewing</div>
+
+    <!-- Intro: text left + large image right -->
+    <div class="intro-grid">
+      <div class="intro-text">
+        The Flowing Observer No. 9 series also experimentally demonstrates the research on the fluidity of species, geographical forms, and biological characteristics. Using digital or acrylic painting, it constructs a visual connection with the ocean, climate, and organisms, forming a media-species-reflective process.
+      </div>
+      <div class="intro-image">
+        <!-- ★ 替换: images/fluxion-v2.jpg -->
+        <img src="images/fluxion-v2.jpg" alt="Flowing Observer No.9"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; aspect-ratio:3/4;">images/fluxion-v2.jpg</div>
+      </div>
+    </div>
+
+    <!-- Full-width image -->
+    <div class="full-image">
+      <!-- ★ 替换: images/fluxion-v3.jpg -->
+      <img src="images/fluxion-v3.jpg" alt="Fluxion viewing detail"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+      <div class="img-placeholder" style="display:none; min-height:300px;">images/fluxion-v3.jpg</div>
+    </div>
+
+    <!-- Two side-by-side images -->
+    <div class="pair-grid">
+      <div>
+        <!-- ★ 替换: images/fluxion-v4.jpg -->
+        <img src="images/fluxion-v4.jpg" alt="Fluxion viewing detail"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; aspect-ratio:1/1;">images/fluxion-v4.jpg</div>
+      </div>
+      <div>
+        <!-- ★ 替换: images/fluxion-v5.jpg -->
+        <img src="images/fluxion-v5.jpg" alt="Fluxion viewing detail"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="img-placeholder" style="display:none; aspect-ratio:1/1;">images/fluxion-v5.jpg</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- RIGHT CV -->
+  <aside class="sidebar-right">
+    <div class="cv-label">cv</div>
+    <div class="cv-section">
+      <div class="cv-key">Educationz</div>
+      <div class="cv-entry">Hunan Normal University<br><span class="cv-entry-date">Sep 2021 – Jun 2024</span><br>Master Degree in Fine Arts &nbsp;FMA</div>
+      <div class="cv-entry">Hunan Normal University<br><span class="cv-entry-date">Sep 2017 – Jun 2021</span><br>Bachelor Degree in Fine Arts &nbsp;BA</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Employment</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2024 – Sep 2025</span><br>Art Teacher<br>YiShuYIGe Art Institution</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2021 – Sep 2023</span><br>Content Editor, Graduate Student<br>Media Public Account (Full-Time)</div>
+      <div class="cv-entry"><span class="cv-entry-date">Nov 2021 – Dec 2021</span><br>Yali Experimental Middle School<br>Art Teacher Intern</div>
+      <div class="cv-entry"><span class="cv-entry-date">Sep 2017 – Sep 2019</span><br>Mengxingzhe Network Media Studio<br>Copywriting Team Member</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Skills</div>
+      <div class="cv-entry">PS, AI, ID</div>
+      <div class="cv-entry">Watercolor, acrylic painting,<br>illustration, Editing</div>
+      <div class="cv-entry">Negotiation<br>Cross-Cultural Communication<br>Creative Project Management</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Awards And Exhibitions</div>
+      <div class="award-entry">Award of Excellence: 15th Annual Exhibition of Art Works of Chinese Universities — "Mobile Spectator NO.8" (Dec 2023 – Mar 2024)</div>
+      <div class="award-entry">Merit Award: CACR Hong Kong Contemporary Art Award Stage 2 — "Mobile Spectator – Jellyfish NO.2" (Sep 2023 – Nov 2023)</div>
+      <div class="award-entry">Online Exhibition: "Boundary of Language: Chinese Art Exhibition" (Sep 2022 – Jun 2023)</div>
+      <div class="award-entry">Exhibition Opportunity: "What is Art?" Boomer Gallery, London (Dec 2022 – Jun 2023)</div>
+      <div class="award-entry">Online Exhibition: "Rainbow: Contemporary Chinese Art Exhibition" Moscow State Ostrovsky Museum (Sep 2022 – Sep 2023)</div>
+      <div class="award-entry">Third Prize, 32nd Campus Culture and Art Festival, Hunan Normal University (Sep 2018 – Sep 2019)</div>
+    </div>
+    <div class="cv-section">
+      <div class="cv-key">Press</div>
+      <div class="press-entry">Sun Rujing. "Melting Snow" [J]. Media, 2023, (13): 104. ISSN 1009-9263

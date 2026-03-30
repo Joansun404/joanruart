@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Joan Ru ART Space — Sun Rujing</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    img { max-width: 100%; height: auto; display: block; }
+    .main-content { overflow: hidden; }
+
+    :root {
+      --bg: #f5f4f0;
+      --ink: #1a1a1a;
+      --muted: #666;
+      --rule: #ccc;
+      --accent: #e05a1a;
+      --col-left: 260px;
+      --col-right: 340px;
+      --font: 'IBM Plex Mono', 'Courier New', monospace;
+      --size-sm: 11.5px;
+      --size-base: 12.5px;
+      --size-title: 13px;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: var(--size-base);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LAYOUT ── */
+    .site {
+      display: grid;
+      grid-template-columns: var(--col-left) 1fr var(--col-right);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* ── LEFT SIDEBAR ── */
+    .sidebar-left {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 32px 24px 40px;
+      border-right: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .sidebar-left::-webkit-scrollbar { display: none; }
+
+    .nav-label {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      margin-bottom: 10px;
+      margin-top: 0;
+    }
+
+    .nav-list {
+      list-style: none;
+      margin-bottom: 40px;
+    }
+
+    .nav-list li { margin-bottom: 2px; }
+
+    .nav-list a {
+      font-size: var(--size-sm);
+      color: var(--ink);
+      text-decoration: none;
+      display: block;
+      padding: 1px 0;
+      transition: color 0.15s;
+    }
+
+    .nav-list a:hover { color: var(--accent); }
+    .nav-list a.active { text-decoration: underline; }
+
+    .contact-block {
+      margin-top: 8px;
+    }
+
+    .contact-block .nav-label { margin-bottom: 8px; }
+
+    .contact-block a {
+      display: block;
+      font-size: var(--size-sm);
+      color: var(--ink);
+      text-decoration: none;
+      margin-bottom: 2px;
+      word-break: break-all;
+    }
+
+    .contact-block a:hover { color: var(--accent); }
+
+    /* ── CENTER CONTENT ── */
+    .main-content {
+      padding: 0 48px 80px;
+      max-width: 100%;
+    }
+
+    /* Artist header */
+    .artist-header {
+      padding: 32px 0 24px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 0;
+    }
+
+    .artist-name {
+      font-size: var(--size-title);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+    }
+
+    .artist-tagline {
+      font-size: var(--size-sm);
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* Series section */
+    .series-section {
+      padding: 40px 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .series-section:last-child { border-bottom: none; }
+
+    .series-number {
+      font-size: var(--size-title);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .series-title {
+      font-size: var(--size-title);
+      font-weight: 500;
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    /* Series with image left + text right */
+    .series-row {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* Series with large image spanning full width then text */
+    .series-full {
+      display: block;
+    }
+
+    .series-image {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #ddd;
+      position: relative;
+    }
+
+    .series-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* placeholder for missing images */
+    .img-placeholder {
+      background: #e8e6e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .img-portrait { aspect-ratio: 3/4; }
+    .img-landscape { aspect-ratio: 16/9; }
+    .img-wide { aspect-ratio: 2/1; }
+    .img-square { aspect-ratio: 1/1; }
+
+    /* Image with orange title overlay (Vision and Times style) */
+    .series-image-overlay {
+      position: relative;
+      display: block;
+    }
+
+    .overlay-title {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--accent);
+      line-height: 1.2;
+      font-style: italic;
+    }
+
+    .overlay-caption {
+      position: absolute;
+      bottom: 8px;
+      left: 16px;
+      font-size: 10px;
+      color: var(--accent);
+      opacity: 0.85;
+    }
+
+    .series-text {}
+
+    .work-title-line {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .work-meta-line {
+      font-size: var(--size-sm);
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .work-desc {
+      font-size: var(--size-sm);
+      line-height: 1.75;
+      color: var(--ink);
+      max-width: 460px;
+      margin-bottom: 20px;
+      text-align: justify;
+      text-justify: inter-character;
+    }
+
+    .view-more {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: underline;
+      cursor: pointer;
+      display: inline-block;
+      background: none;
+      border: none;
+      font-family: var(--font);
+      padding: 0;
+    }
+
+    .view-more:hover { color: var(--accent); }
+
+    .work-caption {
+      font-size: var(--size-sm);
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* Landscape + description layout */
+    .series-landscape-block { margin-bottom: 24px; }
+
+    .series-desc-block {
+      font-size: var(--size-sm);
+      line-height: 1.75;
+      margin-bottom: 20px;
+      max-width: 700px;
+      text-align: justify;
+      text-justify: inter-character;
+    }
+
+    /* ── RIGHT SIDEBAR ── */
+    .sidebar-right {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 32px 28px 40px;
+      border-left: 1px solid var(--rule);
+    }
+
+    .sidebar-right::-webkit-scrollbar { display: none; }
+
+    .cv-label {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-bottom: 20px;
+    }
+
+    .cv-section {
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .cv-section:last-child { border-bottom: none; }
+
+    .cv-key {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .cv-entry {
+      font-size: var(--size-sm);
+      line-height: 1.7;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+
+    .cv-entry:last-child { margin-bottom: 0; }
+
+    .cv-entry-date {
+      font-size: 10.5px;
+      color: var(--muted);
+    }
+
+    .award-entry {
+      font-size: var(--size-sm);
+      line-height: 1.7;
+      margin-bottom: 14px;
+      padding-left: 8px;
+      border-left: 1px solid var(--rule);
+    }
+
+    .press-entry {
+      font-size: var(--size-sm);
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .last-updated {
+      font-size: 10.5px;
+      color: var(--muted);
+      margin-top: 32px;
+    }
+
+    /* ── EXPANDED CONTENT (view more panels) ── */
+    .expanded-panel {
+      display: none;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .expanded-panel.open { display: block; }
+
+    .expanded-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .expanded-item {}
+    .expanded-item img { width: 100%; height: auto; display: block; }
+    .expanded-item .cap { font-size: 10.5px; color: var(--muted); margin-top: 6px; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .site {
+        grid-template-columns: 1fr;
+      }
+      .sidebar-left {
+        position: relative;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--rule);
+        padding: 20px;
+      }
+      .sidebar-right {
+        position: relative;
+        height: auto;
+        border-left: none;
+        border-top: 1px solid var(--rule);
+        padding: 20px;
+      }
+      .main-content { padding: 0 20px 60px; }
+      .series-row { grid-template-columns: 1fr; gap: 20px; }
+    }
+
+    /* LIGHTBOX */
+    .lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:9999; align-items:center; justify-content:center; cursor:zoom-out; }
+    .lightbox.open { display:flex; }
+    .lightbox img { max-width:90vw; max-height:90vh; object-fit:contain; display:block; }
+    .lightbox-close { position:absolute; top:20px; right:28px; color:#fff; font-size:28px; cursor:pointer; line-height:1; opacity:0.7; font-family:var(--font); }
+    .lightbox-close:hover { opacity:1; }
+    .zoomable { cursor:zoom-in; }
+  </style>
+</head>
+<body>
+
+<div class="site">
+
+  <!-- ══════════════════ LEFT SIDEBAR ══════════════════ -->
+  <aside class="sidebar-left">
+    <p class="nav-label">Working List</p>
+    <ul class="nav-list">
+      <li><a href="#s1" class="active">Fluxion_viewing</a></li>
+      <li><a href="#s2">Fluxion_Vision and Times</a></li>
+      <li><a href="#s3">Fluxion_Fluxion_Lanscape and Climate</a></li>
+      <li><a href="#s4">Fluxion_ #She/Her/They</a></li>
+      <li><a href="#s5">Site-specific works</a></li>
+    </ul>
+
+    <div class="contact-block">
+      <p class="nav-label">Contact</p>
+      <a href="/cdn-cgi/l/email-protection#72381d131c0007404240414342321d07061e1d1d195c111d1f"><span class="__cf_email__" data-cfemail="ca80a5aba4b8bff8faf8f9fbfa8aa5bfbea6a5a5a1e4a9a5a7">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#c0b2b5aaa9aea7b3b5aef480a7ada1a9aceea3afad"><span class="__cf_email__" data-cfemail="e99b9c8380878e9a9c87dda98e84888085c78a8684">[email&#160;protected]</span></a>
+      <a href="https://linkedin.com/in/rujing-sun-33b969301" target="_blank">linkedin.com/in/rujing-sun-33b969301</a>
+    </div>
+  </aside>
+
+  <!-- ══════════════════ MAIN CONTENT ══════════════════ -->
+  <main class="main-content">
+
+    <div class="artist-header">
+      <div class="artist-name">SUN RU JING</div>
+      <div class="artist-tagline">Art profile</div>
+    </div>
+
+    <!-- ── SERIES 1: Fluxion_viewing ── -->
+    <section class="series-section" id="s1">
+      <div class="series-title">Fluxion_viewing</div>
+
+      <div class="series-row">
+        <div>
+          <div class="series-image img-portrait img-placeholder">
+            <!-- ★ Replace src with your actual image: images/fluxion-viewing.jpg -->
+            <img class="zoomable" src="images/fluxion-viewing.jpg" alt="Electronic Jellyfish"
+              onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+          </div>
+        </div>
+        <div class="series-text">
+          <div class="work-title-line">Fluxion</div>
+          <div class="work-meta-line">Electronic Jellyfish<br>92×121cm 2023</div>
+          <p class="work-desc">The blue and pink represent the ecological aspect of jellyfish, while the black lines symbolize the hidden network radiation and wires of electronic facilities. This suggests that our vision, whether intentionally or unintentionally, can lead us into a dream-like state with both positive and negative effects.</p>
+          <a href="fluxion_viewing-page.html" class="view-more">view more...</a>
+        </div>
+      </div>
+
+      <div class="expanded-panel" id="expand-s1">
+        <div class="expanded-grid">
+          <div class="expanded-item">
+            <div class="img-placeholder img-square" style="background:#e0ddd6;">
+              <img src="images/fluxion-viewing-2.jpg" alt="" onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+            </div>
+            <p class="cap">Mobile Spectator – Jellyfish NO.2<br>90×110cm 2023</p>
+          </div>
+          <div class="expanded-item">
+            <div class="img-placeholder img-square" style="background:#e0ddd6;">
+              <img src="images/fluxion-viewing-3.jpg" alt="" onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+            </div>
+            <p class="cap">Mobile Spectator NO.8<br>90×110cm 2023</p>
+          </div>
+          <div class="expanded-item">
+            <div class="img-placeholder img-square" style="background:#e0ddd6;">
+              <img src="images/fluxion-viewing-4.jpg" alt="" onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+            </div>
+            <p class="cap">Mobile Spectator NO.3<br>2022</p>
+          </div>
+        </div>
+        <button class="view-more" onclick="togglePanel('expand-s1', this)">close</button>
+      </div>
+    </section>
+
+    <!-- ── SERIES 2: Vision and Times ── -->
+    <section class="series-section" id="s2">
+      <div class="series-number">2. Fluxion_Vision and Times</div>
+
+      <div class="series-image-overlay" style="margin-bottom: 24px; max-width: 60%;">
+        <div class="img-placeholder img-landscape">
+          <!-- ★ Replace: images/vision-times.jpg -->
+          <img class="zoomable" src="images/vision-times.jpg" alt="Vision and Times"
+            onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+        </div>
+        <div class="overlay-title">Vision and Times</div>
+        <div class="overlay-caption" style="bottom:40px; font-size:11px;">Screenshoutf from the film "Человек с Киноаппаратом (1929)"</div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 200px 1fr; gap: 40px; align-items:start;">
+        <div>
+          <div class="work-title-line">Fluxion_Vision and Times</div>
+          <a href="fluxion_vision-and-times.html" class="view-more" style="margin-top:8px;">view more...</a>
+        </div>
+        <div class="series-text">
+          <p class="work-desc">In the "Fluxion Series 5", the evolution of vision is intricately intertwined with the shifting tides of time. From the era of video cameras to the advent of cloud-based intelligent storage, visual technology has undergone a significant transformation, marking a pivotal moment in history.</p>
+          <p class="work-desc">The outdated relics of my childhood, such as old TVs, videotapes, CDs, and magnetic tapes, now serve as a nostalgic reminder of my past visual experiences. Despite their rough and antiquated picture quality, they hold a valuable retrospective significance in tracing the evolution of visual media.</p>
+        </div>
+      </div>
+
+      <div class="expanded-panel" id="expand-s2">
+        <div class="expanded-grid">
+          <div class="expanded-item">
+            <div class="img-placeholder img-landscape" style="background:#e0ddd6;">
+              <img src="images/vision-times-2.jpg" alt="" onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+            </div>
+            <p class="cap">Vision and Times, detail</p>
+          </div>
+          <div class="expanded-item">
+            <div class="img-placeholder img-landscape" style="background:#e0ddd6;">
+              <img src="images/vision-times-3.jpg" alt="" onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+            </div>
+            <p class="cap">Vision and Times, detail</p>
+          </div>
+        </div>
+        <button class="view-more" onclick="togglePanel('expand-s2', this)">close</button>
+      </div>
+    </section>
+
+    <!-- ── SERIES 3: Lanscape and Climate ── -->
+    <section class="series-section" id="s3">
+      <div class="series-number">3. Fluxion_Lanscape and Climate.</div>
+
+      <p class="series-desc-block">This series explores how seasonal environments—winter landscapes, summer forests, and urban heat—shape relationships between human bodies, memory, and ecological systems.</p>
+
+      <div class="series-landscape-block">
+        <div class="img-placeholder img-wide">
+          <!-- ★ Replace: images/landscape-climate.jpg -->
+          <img class="zoomable" src="images/landscape-climate.jpg" alt="Snowing"
+            onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+        </div>
+        <div class="work-caption">Snowing<br>92×180cm 2022</div>
+      </div>
+
+      <p class="work-desc">//This painting explores the winter landscape of my hometown in northern China, where frozen rivers, and general drought condition and agricultural fields, human settlements coexist within a dynamic ecological system. The composition combines figurative elements—people walking in a snowy field, a snow figure, and small human silhouettes—with flowing organic forms that resemble rivers, roots. These abstract lines represent invisible ecological processes such as water circulation, soil memory, and seasonal transformation.</p>
+
+      <a href="climate.html" class="view-more">view more...</a>
+
+      <div class="expanded-panel" id="expand-s3">
+        <div class="expanded-grid">
+          <div class="expanded-item">
+            <div class="img-placeholder img-square" style="background:#e0ddd6;">
+              <img src="images/landscape-2.jpg" alt="" onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+            </div>
+            <p class="cap">Summer Forest, detail</p>
+          </div>
+          <div class="expanded-item">
+            <div class="img-placeholder img-square" style="background:#e0ddd6;">
+              <img src="images/landscape-3.jpg" alt="" onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+            </div>
+            <p class="cap">Urban Heat, detail</p>
+          </div>
+        </div>
+        <button class="view-more" onclick="togglePanel('expand-s3', this)">close</button>
+      </div>
+    </section>
+
+    <!-- ── SERIES 4: #She/Her/They ── -->
+    <section class="series-section" id="s4">
+      <div class="series-number">4. Fluxion_#She/Her/They</div>
+
+      <div class="series-row">
+        <div class="series-text">
+          <p class="work-desc">In the "F lux ion Ser ies 7", the visua l presentation of AI and facial recognition technology is captured through abstract lines. Visual life constructs the judgment standard of truth and falsehood through the iteration and upgrading of information and code. This work uses this to express the reflection of women's life and the "female image" shaped by reality and virtuality in the cyber world.</p>
+          <a href="female.html" class="view-more">view more...</a>
+        </div>
+        <div>
+          <div class="img-placeholder img-portrait">
+            <!-- ★ Replace: images/she-her-they.jpg -->
+            <img class="zoomable" src="images/she-her-they.jpg" alt="Fluxion no.7"
+              onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+          </div>
+          <div class="work-caption">Fluxion no.7<br>90×110cm 2024</div>
+        </div>
+      </div>
+
+      <div class="expanded-panel" id="expand-s4">
+        <div class="expanded-grid">
+          <div class="expanded-item">
+            <div class="img-placeholder img-portrait" style="background:#e0ddd6;">
+              <img src="images/she-her-they-2.jpg" alt="" onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+            </div>
+            <p class="cap">Fluxion no.7, detail</p>
+          </div>
+        </div>
+        <button class="view-more" onclick="togglePanel('expand-s4', this)">close</button>
+      </div>
+    </section>
+
+    <!-- ── SERIES 5: Site-specific works ── -->
+    <section class="series-section" id="s5">
+      <div class="series-number">5. site-specific works</div>
+
+      <div class="series-row" style="margin-top: 24px;">
+        <div>
+          <div class="img-placeholder img-portrait">
+            <!-- ★ Replace: images/site-specific.jpg -->
+            <img class="zoomable" src="images/site-specific.jpg" alt="Site-specific work"
+              onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+          </div>
+        </div>
+        <div class="series-text">
+          <p class="work-desc">Related to Psychological view connected with ambient surrounding, environment, ecological healing and reverting.</p>
+          <a href="cure.html" class="view-more">view more...</a>
+        </div>
+      </div>
+
+      <div class="expanded-panel" id="expand-s5">
+        <div class="expanded-grid">
+          <div class="expanded-item">
+            <div class="img-placeholder img-landscape" style="background:#e0ddd6;">
+              <img src="images/site-specific-2.jpg" alt="" onerror="this.parentElement.classList.add('img-placeholder'); this.style.display='none'">
+            </div>
+            <p class="cap">Site-specific, installation view</p>
+          </div>
+        </div>
+        <button class="view-more" onclick="togglePanel('expand-s5', this)">close</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ══════════════════ RIGHT SIDEBAR (CV) ══════════════════ -->
+  <aside class="sidebar-right">
+    <div class="cv-label">cv</div>
+
+    <div class="cv-section">
+      <div class="cv-key">Education</div>
+      <div class="cv-entry">
+        Hunan Normal University<br>
+        <span class="cv-entry-date">Sep 2021 – Jun 2024</span><br>
+        Master Degree in Fine Arts &nbsp;FMA
+      </div>
+      <div class="cv-entry">
+        Hunan Normal University<br>
+        <span class="cv-entry-date">Sep 2017 – Jun 2021</span><br>
+        Bachelor Degree in Fine Arts &nbsp;BA
+      </div>
+    </div>
+
+    <div class="cv-section">
+      <div class="cv-key">Employment</div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">Sep 2024 – Sep 2025</span><br>
+        Art Teacher<br>
+        YiShuYIGe Art Institution
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">Sep 2021 – Sep 2023</span><br>
+        Normal University Changsha, China<br>
+        Content Editor, Graduate Student<br>
+        Media Public Account (Full-Time)
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">Nov 2021 – Dec 2021</span><br>
+        Yali Experimental Middle School<br>
+        Changsha, China — Art Teacher Intern
+      </div>
+      <div class="cv-entry">
+        <span class="cv-entry-date">Sep 2017 – Sep 2019</span><br>
+        Mengxingzhe Network Media Studio,<br>
+        Hunan Normal University Changsha, China<br>
+        Copywriting Team Member
+      </div>
+    </div>
+
+    <div class="cv-section">
+      <div class="cv-key">Skills</div>
+      <div class="cv-entry">PS, AI, ID</div>
+      <div class="cv-entry">Watercolor, acrylic painting,<br>illustration, Editing</div>
+      <div class="cv-entry">Negotiation<br>Cross-Cultural Communication<br>Creative Project Management</div>
+    </div>
+
+    <div class="cv-section">
+      <div class="cv-key">Awards And Exhibitions</div>
+
+      <div class="award-entry">Award of Excellence:<br>· 15th Annual Exhibition of Art Works of Chinese Universities — Work: "Mobile Spectator NO.8" (Dec 2023 – Mar 2024)</div>
+      <div class="award-entry">· Merit Award: CACR Hong Kong Contemporary Art Award Stage 2 — Work: "Mobile Spectator – Jellyfish NO.2" (Sep 2023 – Nov 2023)</div>
+      <div class="award-entry">· Online Exhibition: "Boundary of Language: Chinese Art Exhibition" — Works: "Mobile Spectator NO.2" and "Mobile Spectator NO.3" (Sep 2022 – Jun 2023)</div>
+      <div class="award-entry">· Exhibition Opportunity: "What is Art?" Sixth Call for Art, Boomer Gallery, London — Work: "Motion Spectator No.1" (Dec 2022 – Jun 2023)</div>
+      <div class="award-entry">· Online Exhibition: "Rainbow: Contemporary Chinese Art Exhibition" by Moscow State Ostrovsky Museum, Moscow State University, and Geya Art — Work: "A mobile spectator-Jellyfish" (Sep 2022 – Sep 2023)</div>
+      <div class="award-entry">· Third Prize, Closing Ceremony of the 32nd Campus Culture and Art</div>
+      <div class="award-entry">· Festival and the 24th Student Academic Festival of Academy of Fine Arts, Hunan Normal University (Sep 2018 – Sep 2019)</div>
+    </div>
+
+    <div class="cv-section">
+      <div class="cv-key">Press</div>
+      <div class="press-entry">Sun Rujing. "Melting Snow" [J]. Media, 2023, (13): 104. ISSN 1009-9263</div>
+      <div class="press-entry">Sun Rujing. "Works of Sun Rujing" [J]. Beauty and Times (Part I), 2022, (06): 2. DOI:10.16129/j.cnki.mysds.2022.06.026. ISSN1003-2592</div>
+    </div>
+
+    <div class="last-updated" id="live-clock"></div>
+  </aside>
+
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  function togglePanel(id, btn) {
+    const panel = document.getElementById(id);
+    const isOpen = panel.classList.toggle('open');
+    btn.textContent = isOpen ? 'close' : 'view more...';
+  }
+
+  // Smooth scroll + active nav highlight
+  const sections = document.querySelectorAll('.series-section');
+  const navLinks = document.querySelectorAll('.nav-list a');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const id = '#' + entry.target.id;
+        const link = document.querySelector(`.nav-list a[href="${id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => observer.observe(s));
+
+  // Lightbox
+  document.querySelectorAll('img.zoomable').forEach(img => {
+    img.addEventListener('click', () => {
+      document.getElementById('lightbox-img').src = img.src;
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function closeLightbox(e) {
+    if (e) e.stopPropagation();
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox(event)">×</span>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+  (function() {
+    function updateClock() {
+      var el = document.getElementById("live-clock");
+      if (!el) return;
+      var now = new Date();
+      var opts = { hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false };
+      el.textContent = now.toLocaleTimeString([], opts);
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+  })();
+</script>
+</body>
+</html>
