@@ -18,7 +18,7 @@
       --rule: #ccc;
       --accent: #e05a1a;
       --col-left: 260px;
-      --col-right: 340px;
+      
       --font: 'IBM Plex Mono', 'Courier New', monospace;
       --size-sm: 11.5px;
       --size-base: 12.5px;
@@ -38,7 +38,7 @@
     /* ── LAYOUT ── */
     .site {
       display: grid;
-      grid-template-columns: var(--col-left) 1fr var(--col-right);
+      grid-template-columns: var(--col-left) 1fr;
       min-height: 100vh;
       position: relative;
     }
@@ -278,17 +278,9 @@
       text-justify: inter-character;
     }
 
-    /* ── RIGHT SIDEBAR ── */
-    .sidebar-right {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      padding: 32px 28px 40px;
-      border-left: 1px solid var(--rule);
-    }
+    
 
-    .sidebar-right::-webkit-scrollbar { display: none; }
+    
 
     .cv-label {
       font-size: var(--size-sm);
@@ -378,13 +370,7 @@
         border-bottom: 1px solid var(--rule);
         padding: 20px;
       }
-      .sidebar-right {
-        position: relative;
-        height: auto;
-        border-left: none;
-        border-top: 1px solid var(--rule);
-        padding: 20px;
-      }
+      
       .main-content { padding: 0 20px 60px; }
       .series-row { grid-template-columns: 1fr; gap: 20px; }
     }
@@ -411,6 +397,7 @@
       <li><a href="#s3">Fluxion_Fluxion_Lanscape and Climate</a></li>
       <li><a href="#s4">Fluxion_ #She/Her/They</a></li>
       <li><a href="#s5">Site-specific works</a></li>
+      <li><a href="cv.html">CV</a></li>
     </ul>
 
     <div class="contact-block">
@@ -622,76 +609,7 @@
   </main>
 
   <!-- ══════════════════ RIGHT SIDEBAR (CV) ══════════════════ -->
-  <aside class="sidebar-right">
-    <div class="cv-label">cv</div>
-
-    <div class="cv-section">
-      <div class="cv-key">Education</div>
-      <div class="cv-entry">
-        Hunan Normal University<br>
-        <span class="cv-entry-date">Sep 2021 – Jun 2024</span><br>
-        Master Degree in Fine Arts &nbsp;FMA
-      </div>
-      <div class="cv-entry">
-        Hunan Normal University<br>
-        <span class="cv-entry-date">Sep 2017 – Jun 2021</span><br>
-        Bachelor Degree in Fine Arts &nbsp;BA
-      </div>
-    </div>
-
-    <div class="cv-section">
-      <div class="cv-key">Employment</div>
-      <div class="cv-entry">
-        <span class="cv-entry-date">Sep 2024 – Sep 2025</span><br>
-        Art Teacher<br>
-        YiShuYIGe Art Institution
-      </div>
-      <div class="cv-entry">
-        <span class="cv-entry-date">Sep 2021 – Sep 2023</span><br>
-        Normal University Changsha, China<br>
-        Content Editor, Graduate Student<br>
-        Media Public Account (Full-Time)
-      </div>
-      <div class="cv-entry">
-        <span class="cv-entry-date">Nov 2021 – Dec 2021</span><br>
-        Yali Experimental Middle School<br>
-        Changsha, China — Art Teacher Intern
-      </div>
-      <div class="cv-entry">
-        <span class="cv-entry-date">Sep 2017 – Sep 2019</span><br>
-        Mengxingzhe Network Media Studio,<br>
-        Hunan Normal University Changsha, China<br>
-        Copywriting Team Member
-      </div>
-    </div>
-
-    <div class="cv-section">
-      <div class="cv-key">Skills</div>
-      <div class="cv-entry">PS, AI, ID</div>
-      <div class="cv-entry">Watercolor, acrylic painting,<br>illustration, Editing</div>
-      <div class="cv-entry">Negotiation<br>Cross-Cultural Communication<br>Creative Project Management</div>
-    </div>
-
-    <div class="cv-section">
-      <div class="cv-key">Awards And Exhibitions</div>
-
-      <div class="award-entry">Award of Excellence:<br>· 15th Annual Exhibition of Art Works of Chinese Universities — Work: "Mobile Spectator NO.8" (Dec 2023 – Mar 2024)</div>
-      <div class="award-entry">· Merit Award: CACR Hong Kong Contemporary Art Award Stage 2 — Work: "Mobile Spectator – Jellyfish NO.2" (Sep 2023 – Nov 2023)</div>
-      <div class="award-entry">· Online Exhibition: "Boundary of Language: Chinese Art Exhibition" — Works: "Mobile Spectator NO.2" and "Mobile Spectator NO.3" (Sep 2022 – Jun 2023)</div>
-      <div class="award-entry">· Exhibition Opportunity: "What is Art?" Sixth Call for Art, Boomer Gallery, London — Work: "Motion Spectator No.1" (Dec 2022 – Jun 2023)</div>
-      <div class="award-entry">· Online Exhibition: "Rainbow: Contemporary Chinese Art Exhibition" by Moscow State Ostrovsky Museum, Moscow State University, and Geya Art — Work: "A mobile spectator-Jellyfish" (Sep 2022 – Sep 2023)</div>
-      <div class="award-entry">· Third Prize, Closing Ceremony of the 32nd Campus Culture and Art</div>
-      <div class="award-entry">· Festival and the 24th Student Academic Festival of Academy of Fine Arts, Hunan Normal University (Sep 2018 – Sep 2019)</div>
-    </div>
-
-    <div class="cv-section">
-      <div class="cv-key">Press</div>
-      <div class="press-entry">Sun Rujing. "Melting Snow" [J]. Media, 2023, (13): 104. ISSN 1009-9263</div>
-      <div class="press-entry">Sun Rujing. "Works of Sun Rujing" [J]. Beauty and Times (Part I), 2022, (06): 2. DOI:10.16129/j.cnki.mysds.2022.06.026. ISSN1003-2592</div>
-    </div>
-
-    <div class="last-updated" id="live-clock"></div>
-  </aside>
+  
 
 </div>
 

@@ -35,7 +35,7 @@
 
     .site {
       display: grid;
-      grid-template-columns: var(--col-left) 1fr var(--col-right);
+      grid-template-columns: var(--col-left) 1fr;
       min-height: 100vh;
     }
 
@@ -153,16 +153,8 @@
       min-height: 200px;
     }
 
-    /* ── RIGHT SIDEBAR ── */
-    .sidebar-right {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      padding: 32px 28px 40px;
-      border-left: 1px solid var(--rule);
-    }
-    .sidebar-right::-webkit-scrollbar { display: none; }
+    
+    
 
     .cv-label { font-size: var(--size-sm); font-weight: 500; margin-bottom: 20px; }
     .cv-section { margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--rule); }
@@ -176,7 +168,7 @@
 
     @media (max-width: 900px) {
       .site { grid-template-columns: 1fr; }
-      .sidebar-left, .sidebar-right { position: relative; height: auto; border: none; border-bottom: 1px solid var(--rule); padding: 20px; }
+      .sidebar-left, 
       .main-content { padding: 20px 20px 60px; }
       .intro-grid { grid-template-columns: 1fr; }
       .intro-text { padding-top: 0; }
@@ -197,6 +189,7 @@
       <li><a href="index.html#s3">Fluxion_Fluxion_Lanscape and Climate</a></li>
       <li><a href="index.html#s4">Fluxion_ #She/Her/They</a></li>
       <li><a href="index.html#s5">Site-specific works</a></li>
+      <li><a href="cv.html">CV</a></li>
     </ul>
     <div class="contact-block">
       <p class="nav-label">Contact</p>

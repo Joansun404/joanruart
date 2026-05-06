@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <title>CV — Joan Ru ART Space</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    :root {
+      --bg: #f5f4f0;
+      --ink: #1a1a1a;
+      --muted: #666;
+      --rule: #ccc;
+      --accent: #e05a1a;
+      --col-left: 260px;
+      --font: 'IBM Plex Mono', 'Courier New', monospace;
+      --size-sm: 11.5px;
+      --size-base: 12.5px;
+      --size-title: 13px;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: var(--size-base);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .site {
+      display: grid;
+      grid-template-columns: var(--col-left) 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── LEFT SIDEBAR ── */
+    .sidebar-left {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 32px 24px 40px;
+      border-right: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-left::-webkit-scrollbar { display: none; }
+
+    .nav-label { font-size: var(--size-sm); font-weight: 500; margin-bottom: 10px; }
+    .nav-list { list-style: none; margin-bottom: 40px; }
+    .nav-list li { margin-bottom: 2px; }
+    .nav-list a {
+      font-size: var(--size-sm);
+      color: var(--ink);
+      text-decoration: none;
+      display: block;
+      padding: 1px 0;
+      transition: color 0.15s;
+    }
+    .nav-list a:hover { color: var(--accent); }
+    .nav-list a.current { text-decoration: underline; color: var(--accent); }
+
+    .contact-block { margin-top: 8px; }
+    .contact-block a {
+      display: block;
+      font-size: var(--size-sm);
+      color: var(--ink);
+      text-decoration: none;
+      margin-bottom: 2px;
+      word-break: break-all;
+    }
+    .contact-block a:hover { color: var(--accent); }
+
+    /* ── MAIN CV ── */
+    .main-content {
+      padding: 32px 80px 80px;
+    }
+
+    .cv-header {
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 0;
+    }
+
+    .cv-header-name {
+      font-size: var(--size-title);
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
+    }
+
+    .cv-header-sub {
+      font-size: var(--size-sm);
+      color: var(--muted);
+    }
+
+    /* CV rows: label left, content right */
+    .cv-row {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 0 48px;
+      padding: 32px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+
+    .cv-row:last-child { border-bottom: none; }
+
+    .cv-row-key {
+      font-size: var(--size-sm);
+      font-weight: 500;
+      padding-top: 2px;
+      letter-spacing: 0.02em;
+    }
+
+    .cv-row-val {}
+
+    .cv-entry {
+      font-size: var(--size-sm);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .cv-entry:last-child { margin-bottom: 0; }
+
+    .cv-date {
+      font-size: 10.5px;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .cv-place {
+      font-weight: 500;
+    }
+
+    .award-item {
+      font-size: var(--size-sm);
+      line-height: 1.8;
+      padding-left: 14px;
+      border-left: 1px solid var(--rule);
+      margin-bottom: 18px;
+    }
+    .award-item:last-child { margin-bottom: 0; }
+
+    .award-date {
+      font-size: 10.5px;
+      color: var(--muted);
+      display: block;
+      margin-top: 3px;
+    }
+
+    .press-item {
+      font-size: var(--size-sm);
+      line-height: 1.8;
+      margin-bottom: 16px;
+    }
+    .press-item:last-child { margin-bottom: 0; }
+
+    .skills-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 40px;
+    }
+
+    .skill-label {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .skill-val {
+      font-size: var(--size-sm);
+      line-height: 1.75;
+    }
+
+    .last-updated {
+      font-size: 10.5px;
+      color: var(--muted);
+      margin-top: 48px;
+    }
+
+    @media (max-width: 900px) {
+      .site { grid-template-columns: 1fr; }
+      .sidebar-left { position: relative; height: auto; border: none; border-bottom: 1px solid var(--rule); padding: 20px; }
+      .main-content { padding: 24px 20px 60px; }
+      .cv-row { grid-template-columns: 1fr; gap: 8px; }
+      .skills-wrap { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="site">
+
+  <!-- LEFT -->
+  <aside class="sidebar-left">
+    <p class="nav-label">Working List</p>
+    <ul class="nav-list">
+      <li><a href="index.html">SUN RU JING</a></li>
+      <li><a href="fluxion_viewing-page.html">Fluxion_viewing</a></li>
+      <li><a href="fluxion_vision-and-times.html">Fluxion_Vision and Times</a></li>
+      <li><a href="climate.html">Fluxion_Lanscape and Climate</a></li>
+      <li><a href="female.html">Fluxion_ #She/Her/They</a></li>
+      <li><a href="cure.html">Site-specific works</a></li>
+      <li><a href="cv.html" class="current">CV</a></li>
+    </ul>
+    <div class="contact-block">
+      <p class="nav-label">Contact</p>
+      <a href="mailto:Joanru202310@outlook.com">Joanru202310@outlook.com</a>
+      <a href="mailto:rujingsun4@gmail.com">rujingsun4@gmail.com</a>
+      <a href="https://linkedin.com/in/rujing-sun-33b969301" target="_blank">linkedin.com/in/rujing-sun-33b969301</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <div class="cv-header">
+      <div class="cv-header-name">SUN RUJING</div>
+      <div class="cv-header-sub">CV &nbsp;·&nbsp; Last Updated 25.08.31</div>
+    </div>
+
+    <!-- Education -->
+    <div class="cv-row">
+      <div class="cv-row-key">Education</div>
+      <div class="cv-row-val">
+        <div class="cv-entry">
+          <span class="cv-date">Sep 2021 – Jun 2024</span>
+          <span class="cv-place">Hunan Normal University</span><br>
+          Master Degree in Fine Arts &nbsp;FMA
+        </div>
+        <div class="cv-entry">
+          <span class="cv-date">Sep 2017 – Jun 2021</span>
+          <span class="cv-place">Hunan Normal University</span><br>
+          Bachelor Degree in Fine Arts &nbsp;BA
+        </div>
+      </div>
+    </div>
+
+    <!-- Employment -->
+    <div class="cv-row">
+      <div class="cv-row-key">Employment</div>
+      <div class="cv-row-val">
+        <div class="cv-entry">
+          <span class="cv-date">Sep 2024 – Sep 2025</span>
+          <span class="cv-place">YiShuYIGe Art Institution</span><br>
+          Art Teacher
+        </div>
+        <div class="cv-entry">
+          <span class="cv-date">Sep 2021 – Sep 2023</span>
+          <span class="cv-place">Normal University Changsha, China</span><br>
+          Content Editor, Graduate Student<br>
+          Media Public Account (Full-Time)
+        </div>
+        <div class="cv-entry">
+          <span class="cv-date">Nov 2021 – Dec 2021</span>
+          <span class="cv-place">Yali Experimental Middle School, Changsha, China</span><br>
+          Art Teacher Intern
+        </div>
+        <div class="cv-entry">
+          <span class="cv-date">Sep 2017 – Sep 2019</span>
+          <span class="cv-place">Mengxingzhe Network Media Studio</span><br>
+          Hunan Normal University Changsha, China<br>
+          Copywriting Team Member
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills -->
+    <div class="cv-row">
+      <div class="cv-row-key">Skills</div>
+      <div class="cv-row-val">
+        <div class="skills-wrap">
+          <div>
+            <div class="skill-label">Software</div>
+            <div class="skill-val">PS, AI, ID</div>
+          </div>
+          <div>
+            <div class="skill-label">Art Practice</div>
+            <div class="skill-val">Watercolor, acrylic painting,<br>illustration, Editing</div>
+          </div>
+          <div>
+            <div class="skill-label">Professional</div>
+            <div class="skill-val">Negotiation<br>Cross-Cultural Communication<br>Creative Project Management</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Awards & Exhibitions -->
+    <div class="cv-row">
+      <div class="cv-row-key">Awards And<br>Exhibitions</div>
+      <div class="cv-row-val">
+        <div class="award-item">
+          Award of Excellence — 15th Annual Exhibition of Art Works of Chinese Universities<br>
+          Work: "Mobile Spectator NO.8"
+          <span class="award-date">Dec 2023 – Mar 2024</span>
+        </div>
+        <div class="award-item">
+          Merit Award — CACR Hong Kong Contemporary Art Award Stage 2<br>
+          Work: "Mobile Spectator – Jellyfish NO.2"
+          <span class="award-date">Sep 2023 – Nov 2023</span>
+        </div>
+        <div class="award-item">
+          Online Exhibition: "Boundary of Language: Chinese Art Exhibition"<br>
+          Works: "Mobile Spectator NO.2" and "Mobile Spectator NO.3"
+          <span class="award-date">Sep 2022 – Jun 2023</span>
+        </div>
+        <div class="award-item">
+          Exhibition Opportunity: "What is Art?" Sixth Call for Art<br>
+          Boomer Gallery, London — Work: "Motion Spectator No.1"
+          <span class="award-date">Dec 2022 – Jun 2023</span>
+        </div>
+        <div class="award-item">
+          Online Exhibition: "Rainbow: Contemporary Chinese Art Exhibition"<br>
+          Moscow State Ostrovsky Museum, Moscow State University, and Geya Art<br>
+          Work: "A mobile spectator-Jellyfish"
+          <span class="award-date">Sep 2022 – Sep 2023</span>
+        </div>
+        <div class="award-item">
+          Third Prize — Closing Ceremony of the 32nd Campus Culture and Art Festival<br>
+          and the 24th Student Academic Festival of Academy of Fine Arts<br>
+          Hunan Normal University
+          <span class="award-date">Sep 2018 – Sep 2019</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Press -->
+    <div class="cv-row">
+      <div class="cv-row-key">Press</div>
+      <div class="cv-row-val">
+        <div class="press-item">
+          Sun Rujing. "Melting Snow" [J].<br>
+          <em>Media</em>, 2023, (13): 104. ISSN 1009-9263
+        </div>
+        <div class="press-item">
+          Sun Rujing. "Works of Sun Rujing" [J].<br>
+          <em>Beauty and Times</em> (Part I), 2022, (06): 2.<br>
+          DOI:10.16129/j.cnki.mysds.2022.06.026. ISSN1003-2592
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  (function() {
+    function updateClock() {
+      var el = document.getElementById('live-clock');
+      if (!el) return;
+      var now = new Date();
+      el.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+  })();
+</script>
+</body>
+</html>
